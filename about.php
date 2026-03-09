@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 session_start();
 include("app/database/db.php");
 include "path.php";
@@ -9,7 +9,7 @@ include "path.php";
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>О нас &mdash; ChinaCars</title>
+    <title>О нас &mdash; AvtoTachka</title>
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
@@ -65,7 +65,7 @@ include "path.php";
                     для России
                 </h1>
                 <p class="text-xl md:text-2xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
-                    ChinaCars — ваш надежный проводник в мир высокотехнологичных, комфортных и инновационных автомобилей
+                    AvtoTachka — ваш надежный проводник в мир высокотехнологичных, комфортных и инновационных автомобилей
                     из Поднебесной. Мы делаем премиум доступным.
                 </p>
             </div>
@@ -121,7 +121,7 @@ include "path.php";
                         доказать, что премиальное качество может быть доступным каждому.
                     </p>
                     <p>
-                        В <strong class="text-primary">ChinaCars</strong> мы тщательно отбираем каждую модель, прежде
+                        В <strong class="text-primary">AvtoTachka</strong> мы тщательно отбираем каждую модель, прежде
                         чем предложить её вам. Наши эксперты лично тестируют новинки, изучают техническую документацию и
                         анализируют отзывы реальных владельцев. Мы предлагаем только те автомобили, в качестве которых
                         уверены на 100%.

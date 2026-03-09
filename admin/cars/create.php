@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 include "../../path.php";
 include SITE_ROOT . "/app/controllers/cars.php";
 include SITE_ROOT . "/app/controllers/users.php";
@@ -15,7 +15,7 @@ include SITE_ROOT . "/app/controllers/users.php";
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet">
-    <title>Добавить авто | ChinaCars</title>
+    <title>Добавить авто | AvtoTachka</title>
 </head>
 
 <body>

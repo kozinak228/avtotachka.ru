@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['apply_bulk']) && isse
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <title>Админ — Категории | ChinaCars</title>
+    <title>Админ — Категории | AvtoTachka</title>
 </head>
 <body>
     <?php include(SITE_ROOT . "/app/include/header-admin.php"); ?>

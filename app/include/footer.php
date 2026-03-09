@@ -1,4 +1,4 @@
-<footer class="bg-slate-950 pt-12 pb-6 border-t border-white/10 mt-auto w-full z-10 relative">
+﻿<footer class="bg-slate-950 pt-12 pb-6 border-t border-white/10 mt-auto w-full z-10 relative">
     <div class="max-w-7xl mx-auto px-4">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
             <div class="col-span-1 md:col-span-2">
@@ -50,7 +50,7 @@
                     </li>
                     <li class="flex items-center space-x-2 text-slate-400">
                         <span class="material-icons text-primary text-sm">email</span>
-                        <span>info@chinacars.ru</span>
+                        <span>info@AvtoTachka.ru</span>
                     </li>
                 </ul>
             </div>
@@ -58,7 +58,7 @@
 
         <div
             class="border-t border-white/10 pt-6 flex flex-col md:flex-row items-center justify-between text-slate-500 text-xs">
-            <p class="m-0">&copy; <?php echo date('Y'); ?> ChinaCars Premium. Все права защищены.</p>
+            <p class="m-0">&copy; <?php echo date('Y'); ?> AvtoTachka Premium. Все права защищены.</p>
             <div class="flex space-x-4 mt-3 md:mt-0">
                 <a href="#" class="hover:text-white transition-colors" style="text-decoration:none;">Политика
                     конфиденциальности</a>

@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 include "path.php";
 include_once SITE_ROOT . "/app/database/db.php";
 
@@ -59,7 +59,7 @@ $brands = selectAll('brands');
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
-    <title><?= $brandInfo['name'] ?> — ChinaCars</title>
+    <title><?= $brandInfo['name'] ?> — AvtoTachka</title>
 </head>
 
 <body class="bg-slate-50 dark:bg-background-dark text-slate-900 dark:text-slate-100 <?= ($_SESSION['theme'] ?? 'dark') === 'dark' ? 'dark-theme' : '' ?>">

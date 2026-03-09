@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 session_start();
 require_once("app/database/db.php");
 require "path.php";
@@ -9,7 +9,7 @@ require "path.php";
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>ChinaCars - Сравнение Автомобилей</title>
+    <title>AvtoTachka - Сравнение Автомобилей</title>
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>

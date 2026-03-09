@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 include "path.php";
 include_once SITE_ROOT . "/app/database/db.php";
 
@@ -30,7 +30,7 @@ $user_favorites = array_column($cars, 'id');
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Избранное &mdash; ChinaCars</title>
+    <title>Избранное &mdash; AvtoTachka</title>
 
     <!-- Tailwind CSS (Stitch Integration) -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>

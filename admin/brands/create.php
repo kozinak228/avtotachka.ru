@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 include "../../path.php";
 include SITE_ROOT . "/app/controllers/brands.php";
 include SITE_ROOT . "/app/controllers/users.php";
@@ -14,7 +14,7 @@ include SITE_ROOT . "/app/controllers/users.php";
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
-    <title>Добавить бренд | ChinaCars</title>
+    <title>Добавить бренд | AvtoTachka</title>
 </head>
 
 <body>

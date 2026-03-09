@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 include "path.php";
 include_once SITE_ROOT . "/app/database/db.php";
 include_once SITE_ROOT . "/app/helps/csrf_helper.php";
@@ -130,7 +130,7 @@ $userAvatar = !empty($currentUser['avatar']) ? BASE_URL . "assets/images/avatars
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Личный кабинет &mdash; ChinaCars</title>
+    <title>Личный кабинет &mdash; AvtoTachka</title>
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>

@@ -1,4 +1,4 @@
-<?php include("path.php");
+﻿<?php include("path.php");
 include "app/database/db.php";
 include "app/helps/csrf_helper.php";
 
@@ -85,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['forgot-btn'])) {
     <link rel="stylesheet" href="assets/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
-    <title>Восстановление пароля &mdash; ChinaCars</title>
+    <title>Восстановление пароля &mdash; AvtoTachka</title>
 </head>
 
 <body

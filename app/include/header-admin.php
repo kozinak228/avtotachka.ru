@@ -240,7 +240,7 @@
         <div class="row">
             <div class="col-4">
                 <h1>
-                    <a href="<?php echo BASE_URL ?>"><i class="fas fa-car"></i> ChinaCars</a>
+                    <a href="<?php echo BASE_URL ?>"><i class="fas fa-car"></i> AvtoTachka</a>
                 </h1>
             </div>
             <nav class="col-8">
