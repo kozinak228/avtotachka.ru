@@ -12,7 +12,7 @@ if ($is_local) {
 else {
     $db_name = 'u3414051_default';
     $db_user = 'u3414051_default';
-    $db_pass = 'wJ7u8AHiO3szaTZ1';
+    $db_pass = 'wJ7u8AHl03szaTZ1'; // Updated from screenshot
 }
 $charset = 'utf8mb4';
 $options = [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
