@@ -1,4 +1,4 @@
-﻿<?php include("path.php");
+<?php include("path.php");
 include "app/controllers/users.php";
 ?>
 <html lang="ru" class="<?= ($_SESSION['theme'] ?? 'dark') === 'dark' ? 'dark' : '' ?>">

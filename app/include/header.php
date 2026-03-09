@@ -1,4 +1,4 @@
-﻿<nav class="fixed top-0 w-full z-50 glass border-b border-white/10">
+<nav class="fixed top-0 w-full z-50 glass border-b border-white/10">
     <div class="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
         <div class="flex items-center space-x-2">
             <span class="material-icons text-primary text-3xl">directions_car</span>

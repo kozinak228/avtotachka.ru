@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 session_start();
 include "../../path.php";
 include "../../app/controllers/commentaries.php";

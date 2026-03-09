@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 session_start();
 include("app/database/db.php");
 include "path.php";

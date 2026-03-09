@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 include "../../path.php";
 include SITE_ROOT . "/app/controllers/brands.php";
 include SITE_ROOT . "/app/controllers/users.php";

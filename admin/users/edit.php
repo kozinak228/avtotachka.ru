@@ -1,4 +1,4 @@
-﻿<?php session_start();
+<?php session_start();
 include "../../path.php";
 include "../../app/controllers/users.php";
 ?>

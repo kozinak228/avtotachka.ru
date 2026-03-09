@@ -1,4 +1,4 @@
-﻿<?php include("path.php");
+<?php include("path.php");
 include "app/database/db.php";
 include "app/helps/csrf_helper.php";
 

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 include "../../path.php";
 include "../../app/controllers/commentaries.php";

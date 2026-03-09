@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 include "path.php";
 include_once SITE_ROOT . "/app/database/db.php";
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search-term'])) {
