@@ -4,8 +4,7 @@
             <div class="col-span-1 md:col-span-2">
                 <div class="flex items-center space-x-2 mb-4">
                     <span class="material-icons text-primary text-2xl">directions_car</span>
-                    <span class="text-xl font-bold tracking-tight text-white">China<span
-                            class="text-primary">Cars</span></span>
+                    <span class="text-xl font-bold tracking-tight text-white">Avto<span class="text-primary">Tachka</span></span>
                 </div>
                 <p class="text-slate-400 max-w-sm mb-4 text-sm leading-snug">Ваш надежный партнер в мире премиальных
                     автомобилей из Китая. Широкий каталог, подробные характеристики, честные цены.</p>

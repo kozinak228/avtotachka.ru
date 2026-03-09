@@ -42,6 +42,9 @@ include "path.php";
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet" />
 
 
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
     <!-- Custom Global CSS -->
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
@@ -84,25 +87,25 @@ include "path.php";
         </section>
 
         <!-- Stats Section -->
-        <section class="container mx-auto px-4 py-16 -mt-16 relative z-20">
+        <section class="container mx-auto px-4 py-16 mt-8 relative z-20">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 animate-fade-in-up" style="animation-delay: 0.1s;">
                 <div
                     class="bg-white/90 dark:bg-slate-800/90 backdrop-blur-md p-8 rounded-3xl border border-white/20 dark:border-slate-700/50 shadow-xl text-center transform hover:-translate-y-2 transition-transform duration-300">
-                    <span class="material-icons-outlined text-5xl text-primary mb-4">emoji_events</span>
+                    
                     <h3 class="text-4xl font-extrabold text-slate-900 dark:text-white mb-2">5+ лет</h3>
                     <p class="text-slate-500 dark:text-slate-400 font-medium">Успешной работы на рынке прямых поставок.
                     </p>
                 </div>
                 <div
                     class="bg-white/90 dark:bg-slate-800/90 backdrop-blur-md p-8 rounded-3xl border border-white/20 dark:border-slate-700/50 shadow-xl text-center transform hover:-translate-y-2 transition-transform duration-300">
-                    <span class="material-icons-outlined text-5xl text-primary mb-4">directions_car</span>
+                    
                     <h3 class="text-4xl font-extrabold text-slate-900 dark:text-white mb-2">1500+</h3>
                     <p class="text-slate-500 dark:text-slate-400 font-medium">Счастливых клиентов, получивших свои
                         автомобили.</p>
                 </div>
                 <div
                     class="bg-white/90 dark:bg-slate-800/90 backdrop-blur-md p-8 rounded-3xl border border-white/20 dark:border-slate-700/50 shadow-xl text-center transform hover:-translate-y-2 transition-transform duration-300">
-                    <span class="material-icons-outlined text-5xl text-primary mb-4">handshake</span>
+                    
                     <h3 class="text-4xl font-extrabold text-slate-900 dark:text-white mb-2">12</h3>
                     <p class="text-slate-500 dark:text-slate-400 font-medium">Эксклюзивных контрактов с официальными
                         дилерами в Китае.</p>

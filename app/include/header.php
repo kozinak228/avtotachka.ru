@@ -1,10 +1,10 @@
-<nav class="fixed top-0 w-full z-50 glass border-b border-white/10">
+﻿<nav class="fixed top-0 w-full z-50 glass border-b border-white/10">
     <div class="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
         <div class="flex items-center space-x-2">
             <span class="material-icons text-primary text-3xl">directions_car</span>
             <a href="<?php echo BASE_URL ?>"
                 class="text-2xl font-bold tracking-tight text-slate-800 dark:text-white hover:text-slate-900 dark:hover:text-white transition-colors"
-                style="text-decoration:none;">China<span class="text-primary">Cars</span></a>
+                style="text-decoration:none;">Avto<span class="text-primary">Tachka</span></a>
         </div>
         <div class="hidden md:flex items-center space-x-8 font-medium">
             <a class="text-slate-700 dark:text-white hover:text-primary dark:hover:text-primary transition-colors"
