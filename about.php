@@ -11,32 +11,36 @@ include "path.php";
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>О нас &mdash; AvtoTachka</title>
 
-    <!-- Tailwind CSS -->
+    <!-- Tailwind CSS (Stitch Integration) -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
-
-    <!-- Google Fonts & Icons -->
-    <link
-        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Material+Icons+Outlined&family=Material+Icons&display=swap"
-        rel="stylesheet" />
-
-    <!-- Tailwind Config -->
     <script>
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
                     colors: {
-                        primary: "#e11d48", // Rose 600
+                        primary: "#e11d48", // Vibrant Red
                         "background-light": "#f8fafc",
                         "background-dark": "#0f172a",
+                        accent: "#3b82f6", // Vibrant Blue
                     },
                     fontFamily: {
-                        display: ["Plus Jakarta Sans", "sans-serif"],
+                        display: ["Outfit", "sans-serif"],
+                        sans: ["Outfit", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.75rem",
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                     }
                 },
             },
         };
     </script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet" />
+
 
     <!-- Custom Global CSS -->
     <link rel="stylesheet" href="assets/css/style.css">
