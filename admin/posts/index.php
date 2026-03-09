@@ -1,83 +1,110 @@
-<?php
-        include "../../path.php";
-        include "../../app/controllers/posts.php";
+﻿<?php
+    include "../../path.php";
+    include "../../app/controllers/posts.php";
 ?>
 <!doctype html>
-<html lang="en">
+<html lang="ru">
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
-          integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-
-    <!-- Custom Styling -->
-    <link rel="stylesheet" href="../../assets/css/admin.css">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <title>My blog</title>
+    <title>Админ — Записи | ChinaCars</title>
 </head>
 <body>
-
-<?php include("../../app/include/header-admin.php"); ?>
-
-<div class="container">
-<?php include "../../app/include/sidebar-admin.php"; ?>
-
-        <div class="posts col-9">
-            <div class="button row">
-                <a href="<?php echo BASE_URL . "admin/posts/create.php";?>" class="col-2 btn btn-success">Создать</a>
-                <span class="col-1"></span>
-                <a href="<?php echo BASE_URL . "admin/posts/index.php";?>" class="col-3 btn btn-warning">Редактировать</a>
-            </div>
-            <div class="row title-table">
-                <h2>Управление записями</h2>
-                <div class="mb-12 col-12 col-md-12 err">
-                    <p><?=$_SESSION['error'];?></p>
+    <?php include(SITE_ROOT . "/app/include/header-admin.php"); ?>
+    <div class="container">
+        <?php include(SITE_ROOT . "/app/include/sidebar-admin.php"); ?>
+        <div class="col-9">
+            <h2>Управление записями</h2>
+            <a href="<?php echo BASE_URL; ?>admin/posts/create.php" class="btn btn-success mb-3"><i class="fas fa-plus"></i> Добавить запись</a>
+            <?php if (!empty($_SESSION['error'])): ?>
+                <div class="alert alert-danger"><?= $_SESSION['error'] ?></div>
+                <?php unset($_SESSION['error']); ?>
+            <?php endif; ?>
+            <form action="index.php" method="post" id="bulkForm">
+                <div class="d-flex mb-3 align-items-center">
+                    <select name="bulk_action" class="form-select w-auto me-2" required>
+                        <option value="">Выберите действие...</option>
+                        <option value="publish">Опубликовать выбранные</option>
+                        <option value="draft">Убрать в черновик</option>
+                        <option value="delete">Удалить выбранные</option>
+                    </select>
+                    <button type="submit" name="apply_bulk" class="btn btn-warning btn-sm">Применить</button>
                 </div>
-                <div class="col-1">ID</div>
-                <div class="col-5">Название</div>
-                <div class="col-2">Автор</div>
-                <div class="col-4">Управление</div>
-            </div>
-            <?php foreach ($postsAdm as $key => $post): ?>
-                <div class="row post">
-                    <div class="id col-1"><?=$key + 1; ?></div>
-                    <div class="title col-5"><?=mb_substr($post['title'], 0, 50, 'UTF-8'). '...'  ?></div>
-                    <div class="author col-2"><?=$post['username']; ?></div>
-                    <div class="red col-1"><a href="edit.php?id=<?=$post['id'];?>">edit</a></div>
-                    <div class="del col-1"><a href="edit.php?delete_id=<?=$post['id'];?>">delete</a></div>
-                    <?php if ($post['status']): ?>
-                        <div class="status col-2"><a href="edit.php?publish=0&pub_id=<?=$post['id'];?>">unpublish</a></div>
-                    <?php else: ?>
-                        <div class="status col-2"><a href="edit.php?publish=1&pub_id=<?=$post['id'];?>">publish</a></div>
-                    <?php endif; ?>
-                </div>
-            <?php endforeach; ?>
+                <table class="table table-hover">
+                    <thead><tr><th><input type="checkbox" id="selectAll"></th><th>ID</th><th>Название</th><th>Автор</th><th>Статус</th><th>Действия</th></tr></thead>
+                    <tbody>
+                        <?php foreach ($postsAdm as $post): ?>
+                        <tr>
+                            <td><input type="checkbox" name="selected_ids[]" value="<?= $post['id'] ?>" class="rowCheckbox"></td>
+                            <td><?= $post['id'] ?></td>
+                            <td><?= mb_substr($post['title'],0,50,'UTF-8').(mb_strlen($post['title'],'UTF-8')>50?'...':'') ?></td>
+                            <td><?= $post['username'] ?></td>
+                            <td>
+                                <?php if ($post['status']): ?>
+                                    <a href="edit.php?publish=0&pub_id=<?= $post['id'] ?>" class="badge bg-success text-decoration-none">Опубликован</a>
+                                <?php else: ?>
+                                    <a href="edit.php?publish=1&pub_id=<?= $post['id'] ?>" class="badge bg-warning text-decoration-none">Черновик</a>
+                                <?php endif; ?>
+                            </td>
+                            <td>
+                                <a href="edit.php?id=<?= $post['id'] ?>" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
+                                <a href="javascript:void(0)" data-href="edit.php?delete_id=<?= $post['id'] ?>" class="btn btn-sm btn-danger delete-btn"><i class="fas fa-trash"></i></a>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </form>
         </div>
     </div>
+
 </div>
 
+<div id="deleteOverlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:999999; justify-content:center; align-items:center;">
+  <div style="background:#0a0a0a; border:2px solid #0f0; border-radius:8px; padding:30px; min-width:320px; text-align:center; color:#0f0; font-family:Comfortaa,sans-serif;">
+    <h4 style="margin:0 0 20px 0; color:#0f0;">Confirm</h4>
+    <p style="margin:0 0 25px 0; color:#0f0; font-size:16px;">Are you sure?</p>
+    <div>
+      <button id="cancelDeleteBtn" style="padding:8px 24px; margin:0 8px; background:transparent; border:1px solid #888; color:#ccc; border-radius:4px; cursor:pointer; font-size:14px;">Cancel</button>
+      <button id="doDeleteBtn" style="padding:8px 24px; margin:0 8px; background:#dc3545; border:1px solid #dc3545; color:#fff; border-radius:4px; cursor:pointer; font-size:14px;">Delete</button>
+    </div>
+  </div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+    var s = document.getElementById('selectAll');
+    var cb = document.querySelectorAll('.rowCheckbox');
+    if(s) s.addEventListener('change', function(){ cb.forEach(function(c){ c.checked = s.checked; }); });
 
-<!-- footer -->
-<?php include("../../app/include/footer.php"); ?>
-<!-- // footer -->
+    var overlay = document.getElementById('deleteOverlay');
+    var deleteUrl = '';
 
+    document.querySelectorAll('.delete-btn').forEach(function(btn){
+        btn.addEventListener('click', function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            deleteUrl = this.getAttribute('data-href') || this.getAttribute('href');
+            overlay.style.display = 'flex';
+        });
+    });
 
-<!-- Optional JavaScript; choose one of the two! -->
+    document.getElementById('cancelDeleteBtn').addEventListener('click', function(){
+        overlay.style.display = 'none';
+        deleteUrl = '';
+    });
 
-<!-- Option 1: Bootstrap Bundle with Popper -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+    document.getElementById('doDeleteBtn').addEventListener('click', function(){
+        if(deleteUrl) window.location.href = deleteUrl;
+    });
 
-<!-- Option 2: Separate Popper and Bootstrap JS -->
-<!--
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js" integrity="sha384-KsvD1yqQ1/1+IA7gi3P0tyJcT3vR+NdBTt13hSJ2lnve8agRGXTTyNaBYmCR/Nwi" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js" integrity="sha384-nsg8ua9HAw1y0W1btsyWgBklPnCUAFLuTMS2G72MMONqmOymq585AcH49TLBQObG" crossorigin="anonymous"></script>
--->
+    overlay.addEventListener('click', function(e){
+        if(e.target === overlay){ overlay.style.display = 'none'; deleteUrl = ''; }
+    });
+});
+</script>
 </body>
 </html>

@@ -59,11 +59,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['apply_bulk'])) {
                     delete('cars', $del_id);
                 }
             }
-        } elseif ($action === 'publish') {
+        }
+        elseif ($action === 'publish') {
             foreach ($ids as $publish_id) {
                 update('cars', $publish_id, ['status' => 1]);
             }
-        } elseif ($action === 'draft') {
+        }
+        elseif ($action === 'draft') {
             foreach ($ids as $draft_id) {
                 update('cars', $draft_id, ['status' => 0]);
             }
@@ -77,7 +79,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['apply_bulk'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_car'])) {
     if (!validateCsrfToken($_POST)) {
         array_push($errMsg, "Ошибка проверки безопасности (CSRF).");
-    } else {
+    }
+    else {
         // Главное фото
         if (!empty($_POST['cropped_img'])) {
             $base64 = $_POST['cropped_img'];
@@ -90,17 +93,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_car'])) {
             $targetPath = ROOT_PATH . "/assets/images/cars/" . $fileName;
             file_put_contents($targetPath, $imgData);
             $_POST['img'] = $fileName;
-        } elseif (!empty($_FILES['img']['name'])) {
+        }
+        elseif (!empty($_FILES['img']['name'])) {
             if (!is_dir(ROOT_PATH . "/assets/images/cars")) {
                 mkdir(ROOT_PATH . "/assets/images/cars", 0777, true);
             }
             $uploadedName = uploadAndCropImage($_FILES['img'], ROOT_PATH . "/assets/images/cars", 800, 600);
             if ($uploadedName) {
                 $_POST['img'] = $uploadedName;
-            } else {
+            }
+            else {
                 array_push($errMsg, "Ошибка загрузки! Файл должен быть формата JPG, PNG или WebP.");
             }
-        } else {
+        }
+        else {
             $_POST['img'] = '';
         }
 
@@ -118,19 +124,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_car'])) {
 
         if ($title === '' || $brand === '') {
             array_push($errMsg, "Не все обязательные поля заполнены!");
-        } elseif (mb_strlen($title, 'UTF8') < 3) {
+        }
+        elseif (mb_strlen($title, 'UTF8') < 3) {
             array_push($errMsg, "Название авто должно быть более 3-х символов");
-        } elseif ($price < 0) {
+        }
+        elseif ($price < 0) {
             array_push($errMsg, "Цена не может быть отрицательной");
-        } elseif ($year < 1900 || $year > date('Y') + 1) {
+        }
+        elseif ($year < 1900 || $year > date('Y') + 1) {
             array_push($errMsg, "Некорректный год выпуска");
-        } elseif ($mileage < 0) {
+        }
+        elseif ($mileage < 0) {
             array_push($errMsg, "Пробег не может быть отрицательным");
-        } elseif ($engine_volume < 0 || $engine_volume > 15) {
+        }
+        elseif ($engine_volume < 0 || $engine_volume > 15) {
             array_push($errMsg, "Некорректный объем двигателя");
-        } elseif ($horsepower < 0 || $horsepower > 2000) {
+        }
+        elseif ($horsepower < 0 || $horsepower > 2000) {
             array_push($errMsg, "Некорректная мощность двигателя");
-        } else {
+        }
+        else {
             $car = [
                 'id_user' => $_SESSION['id'],
                 'id_brand' => $brand,
@@ -179,7 +192,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_car'])) {
             exit();
         }
     }
-} else {
+}
+else {
     $id = '';
     $title = '';
     $description = '';
@@ -202,7 +216,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_car'])) {
 
     if (!validateCsrfToken($_POST)) {
         array_push($errMsg, "Ошибка проверки безопасности (CSRF).");
-    } else {
+    }
+    else {
         $id = $_POST['id'];
         $title = trim($_POST['title']);
         $description = trim($_POST['description']);
@@ -222,17 +237,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_car'])) {
             $targetPath = ROOT_PATH . "/assets/images/cars/" . $fileName;
             file_put_contents($targetPath, $imgData);
             $_POST['img'] = $fileName;
-        } elseif (!empty($_FILES['img']['name'])) {
+        }
+        elseif (!empty($_FILES['img']['name'])) {
             if (!is_dir(ROOT_PATH . "/assets/images/cars")) {
                 mkdir(ROOT_PATH . "/assets/images/cars", 0777, true);
             }
             $uploadedName = uploadAndCropImage($_FILES['img'], ROOT_PATH . "/assets/images/cars", 800, 600);
             if ($uploadedName) {
                 $_POST['img'] = $uploadedName;
-            } else {
+            }
+            else {
                 array_push($errMsg, "Ошибка загрузки! Файл должен быть формата JPG, PNG или WebP.");
             }
-        } else {
+        }
+        else {
             $_POST['img'] = $_POST['current_img'] ?? '';
         }
 
@@ -244,19 +262,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_car'])) {
 
         if ($title === '' || $brand === '') {
             array_push($errMsg, "Не все обязательные поля заполнены!");
-        } elseif (mb_strlen($title, 'UTF8') < 3) {
+        }
+        elseif (mb_strlen($title, 'UTF8') < 3) {
             array_push($errMsg, "Название авто должно быть более 3-х символов");
-        } elseif ($price < 0) {
+        }
+        elseif ($price < 0) {
             array_push($errMsg, "Цена не может быть отрицательной");
-        } elseif ($year < 1900 || $year > date('Y') + 1) {
+        }
+        elseif ($year < 1900 || $year > date('Y') + 1) {
             array_push($errMsg, "Некорректный год выпуска");
-        } elseif ($mileage < 0) {
+        }
+        elseif ($mileage < 0) {
             array_push($errMsg, "Пробег не может быть отрицательным");
-        } elseif ($engine_volume < 0 || $engine_volume > 15) {
+        }
+        elseif ($engine_volume < 0 || $engine_volume > 15) {
             array_push($errMsg, "Некорректный объем двигателя");
-        } elseif ($horsepower < 0 || $horsepower > 2000) {
+        }
+        elseif ($horsepower < 0 || $horsepower > 2000) {
             array_push($errMsg, "Некорректная мощность двигателя");
-        } else {
+        }
+        else {
             $car = [
                 'id_user' => $_SESSION['id'],
                 'id_brand' => $brand,
@@ -305,7 +330,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_car'])) {
             exit();
         }
     }
-} else {
+}
+else {
     if (isset($_POST['title'])) {
         $title = $_POST['title'];
         $description = $_POST['description'];
@@ -314,7 +340,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_car'])) {
     }
 }
 
-// РџСѓР±Р»РёРєР°С†РёСЏ / СЃРЅСЏС‚РёРµ СЃ РїСѓР±Р»РёРєР°С†РёРё
+// Публикация / снятие с публикации
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['pub_id'])) {
     $id = $_GET['pub_id'];
     $publish = $_GET['publish'];
@@ -324,8 +350,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['pub_id'])) {
 }
 
 // Удаление авто
-if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['delete_id'])) {
-    $id = $_GET['delete_id'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
+    if (!isset($_SESSION['admin']) || !$_SESSION['admin']) {
+        header('location: ' . BASE_URL);
+        exit;
+    }
+    $id = $_POST['delete_id'];
 
     // Получаем данные авто
     $car = selectOne('cars', ['id' => $id]);

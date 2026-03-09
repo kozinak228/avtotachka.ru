@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="../../assets/css/admin.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <title>My blog</title>
+    <title>Админ — ChinaCars</title>
 </head>
 <body>
 
@@ -65,7 +65,7 @@
                     <div class="form-check">
                         <input name="publish" class="form-check-input" type="checkbox" value="1" id="flexCheckChecked" checked>
                         <label class="form-check-label" for="flexCheckChecked">
-                            Publish
+                            Опубликовать
                         </label>
                     </div>
                     <div class="col col-6">
@@ -79,9 +79,6 @@
 </div>
 
 
-<!-- footer -->
-<?php include("../../app/include/footer.php"); ?>
-<!-- // footer -->
 
 
 <!-- Optional JavaScript; choose one of the two! -->

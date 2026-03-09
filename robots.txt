@@ -1,0 +1,16 @@
+# ChinaCars - robots.txt
+User-agent: *
+Allow: /
+
+# Закрыть админку от индексации
+Disallow: /admin/
+Disallow: /app/
+
+# Закрыть служебные страницы
+Disallow: /logout.php
+Disallow: /ajax_*.php
+Disallow: /reset.php
+Disallow: /forgot.php
+
+# Sitemap (раскомментируйте и укажите ваш домен после заливки)
+# Sitemap: https://ваш-домен.ru/sitemap.xml

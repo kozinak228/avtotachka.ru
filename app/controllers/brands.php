@@ -9,12 +9,12 @@ $country = '';
 
 $brands = selectAll('brands');
 
-// РЎРѕР·РґР°РЅРёРµ Р±СЂРµРЅРґР°
+// Создание бренда
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['brand-create'])) {
     $name = isset($_POST['name']) ? trim($_POST['name']) : '';
-    $country = isset($_POST['country']) ? trim($_POST['country']) : 'РљРёС‚Р°Р№';
+    $country = isset($_POST['country']) ? trim($_POST['country']) : 'Китай';
 
-    // Р—Р°РіСЂСѓР·РєР° Р»РѕРіРѕС‚РёРїР°
+    // Загрузка логотипа
     $logoName = '';
     if (!empty($_FILES['logo']['name'])) {
         $imgName = time() . "_" . $_FILES['logo']['name'];
@@ -32,14 +32,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['brand-create'])) {
     }
 
     if ($name === '') {
-        $errMsg = "РќР°Р·РІР°РЅРёРµ Р±СЂРµРЅРґР° РЅРµ РјРѕР¶РµС‚ Р±С‹С‚СЊ РїСѓСЃС‚С‹Рј!";
-    } elseif (mb_strlen($name, 'UTF8') < 2) {
-        $errMsg = "РќР°Р·РІР°РЅРёРµ Р±СЂРµРЅРґР° РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ Р±РѕР»РµРµ 2-С… СЃРёРјРІРѕР»РѕРІ";
-    } else {
+        $errMsg = "Название бренда не может быть пустым!";
+    }
+    elseif (mb_strlen($name, 'UTF8') < 2) {
+        $errMsg = "Название бренда должно быть более 2-х символов";
+    }
+    else {
         $existence = selectOne('brands', ['name' => $name]);
         if ($existence && $existence['name'] === $name) {
-            $errMsg = "РўР°РєРѕР№ Р±СЂРµРЅРґ СѓР¶Рµ РµСЃС‚СЊ РІ Р±Р°Р·Рµ";
-        } else {
+            $errMsg = "Такой бренд уже есть в базе";
+        }
+        else {
             $brand = [
                 'name' => $name,
                 'logo' => $logoName,
@@ -49,12 +52,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['brand-create'])) {
             header('location: ' . BASE_URL . 'admin/brands/index.php');
         }
     }
-} else {
+}
+else {
     $name = '';
     $country = '';
 }
 
-// РђРїРґРµР№С‚ Р±СЂРµРЅРґР°
+// Апдейт бренда
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])) {
     $id = $_GET['id'];
     $brand = selectOne('brands', ['id' => $id]);
@@ -68,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['brand-edit'])) {
     $name = trim($_POST['name']);
     $country = trim($_POST['country']);
 
-    // Р—Р°РіСЂСѓР·РєР° РЅРѕРІРѕРіРѕ Р»РѕРіРѕС‚РёРїР°
+    // Загрузка нового логотипа
     $logoName = $_POST['current_logo'] ?? '';
     if (!empty($_FILES['logo']['name'])) {
         $imgName = time() . "_" . $_FILES['logo']['name'];
@@ -86,10 +90,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['brand-edit'])) {
     }
 
     if ($name === '') {
-        $errMsg = "РќР°Р·РІР°РЅРёРµ Р±СЂРµРЅРґР° РЅРµ РјРѕР¶РµС‚ Р±С‹С‚СЊ РїСѓСЃС‚С‹Рј!";
-    } elseif (mb_strlen($name, 'UTF8') < 2) {
-        $errMsg = "РќР°Р·РІР°РЅРёРµ Р±СЂРµРЅРґР° РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ Р±РѕР»РµРµ 2-С… СЃРёРјРІРѕР»РѕРІ";
-    } else {
+        $errMsg = "Название бренда не может быть пустым!";
+    }
+    elseif (mb_strlen($name, 'UTF8') < 2) {
+        $errMsg = "Название бренда должно быть более 2-х символов";
+    }
+    else {
         $brand = [
             'name' => $name,
             'logo' => $logoName,
@@ -101,7 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['brand-edit'])) {
     }
 }
 
-// РЈРґР°Р»РµРЅРёРµ Р±СЂРµРЅРґР°
+// Удаление бренда
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['del_id'])) {
     $id = $_GET['del_id'];
     delete('brands', $id);

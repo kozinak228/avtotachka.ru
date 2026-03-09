@@ -1,8 +1,34 @@
 <?php
 
 include_once SITE_ROOT . "/app/database/db.php";
-if (!$_SESSION){
+if (!$_SESSION) {
     header('location: ' . BASE_URL . 'log.php');
+}
+
+// Bulk actions from admin
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['apply_bulk']) && isset($_POST['bulk_action'])) {
+    if (!isset($_SESSION['admin']) || !$_SESSION['admin']) {
+        header('location: ' . BASE_URL);
+        exit;
+    }
+    $ids = $_POST['selected_ids'] ?? [];
+    $action = $_POST['bulk_action'];
+    if (!empty($ids)) {
+        foreach ($ids as $pid) {
+            $pid = (int)$pid;
+            if ($action === 'delete') {
+                delete('posts', $pid);
+            }
+            elseif ($action === 'publish') {
+                update('posts', $pid, ['status' => 1]);
+            }
+            elseif ($action === 'draft') {
+                update('posts', $pid, ['status' => 0]);
+            }
+        }
+    }
+    header('location: ' . BASE_URL . 'admin/posts/index.php');
+    exit;
 }
 
 $errMsg = [];
@@ -16,10 +42,10 @@ $topics = selectAll('topics');
 $posts = selectAll('posts');
 $postsAdm = selectAllFromPostsWithUsers('posts', 'users');
 
-// РљРѕРґ РґР»СЏ С„РѕСЂРјС‹ СЃРѕР·РґР°РЅРёСЏ Р·Р°РїРёСЃРё
-if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_post'])){
+// Код для формы создания записи
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_post'])) {
 
-    if (!empty($_FILES['img']['name'])){
+    if (!empty($_FILES['img']['name'])) {
         $imgName = time() . "_" . $_FILES['img']['name'];
         $fileTmpName = $_FILES['img']['tmp_name'];
         $fileType = $_FILES['img']['type'];
@@ -27,18 +53,21 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_post'])){
 
 
         if (strpos($fileType, 'image') === false) {
-            array_push($errMsg, "РџРѕРґРіСЂСѓР¶Р°РµРјС‹Р№ С„Р°Р№Р» РЅРµ СЏРІР»СЏРµС‚СЃСЏ РёР·РѕР±СЂР°Р¶РµРЅРёРµРј!");
-        }else{
+            array_push($errMsg, "Подгружаемый файл не является изображением!");
+        }
+        else {
             $result = move_uploaded_file($fileTmpName, $destination);
 
-            if ($result){
+            if ($result) {
                 $_POST['img'] = $imgName;
-            }else{
-                array_push($errMsg, "РћС€РёР±РєР° Р·Р°РіСЂСѓР·РєРё РёР·РѕР±СЂР°Р¶РµРЅРёСЏ РЅР° СЃРµСЂРІРµСЂ");
+            }
+            else {
+                array_push($errMsg, "Ошибка загрузки изображения на сервер");
             }
         }
-    }else{
-        array_push($errMsg, "РћС€РёР±РєР° РїРѕР»СѓС‡РµРЅРёСЏ РєР°СЂС‚РёРЅРєРё");
+    }
+    else {
+        array_push($errMsg, "Ошибка получения картинки");
     }
 
     $title = trim($_POST['title']);
@@ -47,11 +76,13 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_post'])){
     $publish = isset($_POST['publish']) ? 1 : 0;
 
 
-    if($title === '' || $content === '' || $topic === ''){
-        array_push($errMsg, "РќРµ РІСЃРµ РїРѕР»СЏ Р·Р°РїРѕР»РЅРµРЅС‹!");
-    }elseif (mb_strlen($title, 'UTF8') < 7){
-        array_push($errMsg, "РќР°Р·РІР°РЅРёРµ СЃС‚Р°С‚СЊРё РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ Р±РѕР»РµРµ 7-РјРё СЃРёРјРІРѕР»РѕРІ");
-    }else{
+    if ($title === '' || $content === '' || $topic === '') {
+        array_push($errMsg, "Не все поля заполнены!");
+    }
+    elseif (mb_strlen($title, 'UTF8') < 7) {
+        array_push($errMsg, "Название статьи должно быть более 7-ми символов");
+    }
+    else {
         $post = [
             'id_user' => $_SESSION['id'],
             'title' => $title,
@@ -62,10 +93,11 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_post'])){
         ];
 
         $post = insert('posts', $post);
-        $post = selectOne('posts', ['id' => $id] );
+        $post = selectOne('posts', ['id' => $id]);
         header('location: ' . BASE_URL . 'admin/posts/index.php');
     }
-}else{
+}
+else {
     $id = '';
     $title = '';
     $content = '';
@@ -74,25 +106,25 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_post'])){
 }
 
 
-// РђРџР”Р•Р™Рў РЎРўРђРўР¬Р
-if($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])){
+// АПДЕЙТ СТАТЬИ
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])) {
     $post = selectOne('posts', ['id' => $_GET['id']]);
 
-    $id =  $post['id'];
-    $title =  $post['title'];
+    $id = $post['id'];
+    $title = $post['title'];
     $content = $post['content'];
     $topic = $post['id_topic'];
     $publish = $post['status'];
 }
 
-if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_post'])){
-    $id =  $_POST['id'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_post'])) {
+    $id = $_POST['id'];
     $title = trim($_POST['title']);
     $content = trim($_POST['content']);
     $topic = trim($_POST['topic']);
     $publish = isset($_POST['publish']) ? 1 : 0;
 
-    if (!empty($_FILES['img']['name'])){
+    if (!empty($_FILES['img']['name'])) {
         $imgName = time() . "_" . $_FILES['img']['name'];
         $fileTmpName = $_FILES['img']['tmp_name'];
         $fileType = $_FILES['img']['type'];
@@ -100,26 +132,31 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_post'])){
 
 
         if (strpos($fileType, 'image') === false) {
-            array_push($errMsg, "РџРѕРґРіСЂСѓР¶Р°РµРјС‹Р№ С„Р°Р№Р» РЅРµ СЏРІР»СЏРµС‚СЃСЏ РёР·РѕР±СЂР°Р¶РµРЅРёРµРј!");
-        }else{
+            array_push($errMsg, "Подгружаемый файл не является изображением!");
+        }
+        else {
             $result = move_uploaded_file($fileTmpName, $destination);
 
-            if ($result){
+            if ($result) {
                 $_POST['img'] = $imgName;
-            }else{
-                array_push($errMsg, "РћС€РёР±РєР° Р·Р°РіСЂСѓР·РєРё РёР·РѕР±СЂР°Р¶РµРЅРёСЏ РЅР° СЃРµСЂРІРµСЂ");
+            }
+            else {
+                array_push($errMsg, "Ошибка загрузки изображения на сервер");
             }
         }
-    }else{
-        array_push($errMsg, "РћС€РёР±РєР° РїРѕР»СѓС‡РµРЅРёСЏ РєР°СЂС‚РёРЅРєРё");
+    }
+    else {
+        array_push($errMsg, "Ошибка получения картинки");
     }
 
 
-    if($title === '' || $content === '' || $topic === ''){
-        array_push($errMsg, "РќРµ РІСЃРµ РїРѕР»СЏ Р·Р°РїРѕР»РЅРµРЅС‹!");
-    }elseif (mb_strlen($title, 'UTF8') < 7){
-        array_push($errMsg, "РќР°Р·РІР°РЅРёРµ СЃС‚Р°С‚СЊРё РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ Р±РѕР»РµРµ 7-РјРё СЃРёРјРІРѕР»РѕРІ");
-    }else{
+    if ($title === '' || $content === '' || $topic === '') {
+        array_push($errMsg, "Не все поля заполнены!");
+    }
+    elseif (mb_strlen($title, 'UTF8') < 7) {
+        array_push($errMsg, "Название статьи должно быть более 7-ми символов");
+    }
+    else {
         $post = [
             'id_user' => $_SESSION['id'],
             'title' => $title,
@@ -132,15 +169,16 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_post'])){
         $post = update('posts', $id, $post);
         header('location: ' . BASE_URL . 'admin/posts/index.php');
     }
-}else{
-    $title = $_POST['title'];
-    $content = $_POST['content'];
+}
+else {
+    $title = $_POST['title'] ?? '';
+    $content = $_POST['content'] ?? '';
     $publish = isset($_POST['publish']) ? 1 : 0;
-    $topic = $_POST['id_topic'];
+    $topic = $_POST['id_topic'] ?? '';
 }
 
-// РЎС‚Р°С‚СѓСЃ РѕРїСѓР±Р»РёРєРѕРІР°С‚СЊ РёР»Рё СЃРЅСЏС‚СЊ СЃ РїСѓР±Р»РёРєР°С†РёРё
-if($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['pub_id'])){
+// Статус опубликовать или снять с публикации
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['pub_id'])) {
     $id = $_GET['pub_id'];
     $publish = $_GET['publish'];
 
@@ -150,9 +188,14 @@ if($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['pub_id'])){
     exit();
 }
 
-// РЈРґР°Р»РµРЅРёРµ СЃС‚Р°С‚СЊРё
-if($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['delete_id'])){
-    $id = $_GET['delete_id'];
+// Удаление статьи
+if (isset($_POST['delete_id']) || isset($_GET['delete_id'])) {
+    if (!isset($_SESSION['admin']) || !$_SESSION['admin']) {
+        header('location: ' . BASE_URL);
+        exit;
+    }
+    $id = (int)($_POST['delete_id'] ?? $_GET['delete_id']);
     delete('posts', $id);
     header('location: ' . BASE_URL . 'admin/posts/index.php');
+    exit;
 }

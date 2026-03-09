@@ -46,7 +46,8 @@ function selectAll($table, $params = [])
         foreach ($params as $key => $value) {
             if ($i === 0) {
                 $sql = $sql . " WHERE $key=:$key";
-            } else {
+            }
+            else {
                 $sql = $sql . " AND $key=:$key";
             }
             $i++;
@@ -55,6 +56,19 @@ function selectAll($table, $params = [])
 
     $query = $pdo->prepare($sql);
     $query->execute($params);
+    dbCheckError($query);
+    return $query->fetchAll();
+}
+
+// Запрос на получение записей с авторами (JOIN posts + users)
+function selectAllFromPostsWithUsers($postsTable, $usersTable)
+{
+    global $pdo;
+    $sql = "SELECT p.*, u.username FROM $postsTable AS p 
+            JOIN $usersTable AS u ON p.id_user = u.id 
+            ORDER BY p.id DESC";
+    $query = $pdo->prepare($sql);
+    $query->execute();
     dbCheckError($query);
     return $query->fetchAll();
 }
@@ -71,7 +85,8 @@ function selectOne($table, $params = [])
         foreach ($params as $key => $value) {
             if ($i === 0) {
                 $sql = $sql . " WHERE $key=:$key";
-            } else {
+            }
+            else {
                 $sql = $sql . " AND $key=:$key";
             }
             $i++;
@@ -95,7 +110,8 @@ function insert($table, $params)
         if ($i === 0) {
             $coll = $coll . "$key";
             $mask = $mask . ":" . "$key";
-        } else {
+        }
+        else {
             $coll = $coll . ", $key";
             $mask = $mask . ", :" . "$key";
         }
@@ -119,7 +135,8 @@ function update($table, $id, $params)
     foreach ($params as $key => $value) {
         if ($i === 0) {
             $str = $str . $key . " = :" . $key;
-        } else {
+        }
+        else {
             $str = $str . ", " . $key . " = :" . $key;
         }
         $i++;
@@ -153,7 +170,8 @@ function countRow($table, $params = [])
         foreach ($params as $key => $value) {
             if ($i === 0) {
                 $sql = $sql . " WHERE $key=:$key";
-            } else {
+            }
+            else {
                 $sql = $sql . " AND $key=:$key";
             }
             $i++;

@@ -1,4 +1,4 @@
-<!-- MATRIX THEME STYLES -->
+﻿<!-- MATRIX THEME STYLES -->
 <style>
     /* Global Dark Matrix Reset */
     body {
@@ -54,10 +54,18 @@
         color: #000 !important;
         text-shadow: none !important;
         font-weight: bold;
+        background: rgba(255, 255, 255, 0.9) !important;
+        margin: 5px 10px;
+        border-radius: 6px;
+        padding: 14px 18px !important;
+        display: block;
+        border: 1px solid rgba(0, 255, 0, 0.3);
     }
     .sidebar ul li a:hover {
         color: #000 !important;
-        text-shadow: 0 0 10px #0f0 !important;
+        text-shadow: none !important;
+        background: #fff !important;
+        box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
     }
     
     .table {
@@ -81,6 +89,12 @@
         border-color: #000 !important;
         text-shadow: none !important;
         font-weight: bold;
+        background: rgba(255, 255, 255, 0.9) !important;
+        margin: 5px 10px;
+        border-radius: 6px;
+        padding: 14px 18px !important;
+        display: block;
+        border: 1px solid rgba(0, 255, 0, 0.3);
     }
     .pagination .page-item.active .page-link, 
     .pagination .page-link:hover {
@@ -104,10 +118,12 @@
 
     /* Buttons */
     .btn {
-        background: transparent !important;
+        background: rgba(255, 255, 255, 0.9) !important;
         border: 1px solid #0f0 !important;
-        color: #0f0 !important;
-        box-shadow: inset 0 0 5px #0f0;
+        color: #000 !important;
+        text-shadow: none !important;
+        box-shadow: 0 0 5px rgba(0, 255, 0, 0.3);
+        font-weight: 600;
         transition: all 0.3s ease;
     }
 
@@ -122,7 +138,41 @@
     .btn-warning,
     .btn-danger,
     .btn-info {
-        background: rgba(0, 50, 0, 0.5) !important;
+        background: rgba(255, 255, 255, 0.9) !important; color: #000 !important; text-shadow: none !important;
+    }
+
+
+    /* CKEditor dark transparent theme */
+    .ck.ck-editor__main>.ck-editor__editable {
+        background: rgba(0, 20, 0, 0.8) !important;
+        color: #0f0 !important;
+        border-color: #0f0 !important;
+        min-height: 120px;
+    }
+    .ck.ck-toolbar {
+        background: rgba(0, 30, 0, 0.9) !important;
+        border-color: #0f0 !important;
+    }
+    .ck.ck-toolbar .ck-button,
+    .ck.ck-toolbar .ck-dropdown__button {
+        color: #0f0 !important;
+        background: transparent !important;
+    }
+    .ck.ck-toolbar .ck-button:hover {
+        background: rgba(0, 255, 0, 0.2) !important;
+    }
+    .ck.ck-editor {
+        border: 1px solid #0f0 !important;
+    }
+    .ck.ck-editor__editable:focus {
+        box-shadow: 0 0 10px #0f0 !important;
+    }
+    /* Add-post form area - dark transparent */
+    .add-post {
+        background: rgba(0, 10, 0, 0.6) !important;
+        border-radius: 8px;
+        padding: 20px !important;
+        border: 1px solid rgba(0, 255, 0, 0.3);
     }
 
     /* Matrix Canvas */
@@ -203,7 +253,7 @@
                     <li>
                         <a href="#">
                             <i class="fa fa-user"></i>
-                            <?php echo $_SESSION['login']; ?>
+                            <?php echo $_SESSION['login'] ?? $_SESSION['username'] ?? 'Admin'; ?>
                         </a>
                     </li>
                     <li>

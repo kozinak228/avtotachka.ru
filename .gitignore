@@ -5,3 +5,31 @@ vendor/
 node_modules/
 .DS_Store
 Thumbs.db
+
+# Чувствительные файлы — НИКОГДА не коммитить
+notebooklm_cookie.txt
+emails.log
+*.sql
+
+# Дебаг-скрипты
+check_db.php
+fix_data.php
+migrate.php
+migrate_v2.php
+update_db.php
+reset_user.php
+
+# Temporary/seed files
+seed_data.php
+download_photos.php
+cars_seed.sql
+comments_seed.sql
+gallery_seed.sql
+fix_data.php
+check_db.php
+reset_user.php
+update_db.php
+notebooklm_cookie.txt
+download_google.php
+dl_single.php
+*.sql

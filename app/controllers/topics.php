@@ -9,37 +9,41 @@ $description = '';
 $topics = selectAll('topics');
 
 
-// РљРѕРґ РґР»СЏ С„РѕСЂРјС‹ СЃРѕР·РґР°РЅРёСЏ РєР°С‚РµРіРѕСЂРёРё
-if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['topic-create'])){
+// Код для формы создания категории
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['topic-create'])) {
     $name = isset($_POST['name']) ? trim($_POST['name']) : '';
     $description = isset($_POST['description']) ? trim($_POST['description']) : '';
 
-    if($name === '' || $description === ''){
-        $errMsg = "РќРµ РІСЃРµ РїРѕР»СЏ Р·Р°РїРѕР»РЅРµРЅС‹!";
-    }elseif (mb_strlen($name, 'UTF8') < 2){
-        $errMsg = "РљР°С‚РµРіРѕСЂРёСЏ РґРѕР»Р¶РЅР° Р±С‹С‚СЊ Р±РѕР»РµРµ 2-С… СЃРёРјРІРѕР»РѕРІ";
-    }else{
+    if ($name === '' || $description === '') {
+        $errMsg = "Не все поля заполнены!";
+    }
+    elseif (mb_strlen($name, 'UTF8') < 2) {
+        $errMsg = "Категория должна быть более 2-х символов";
+    }
+    else {
         $existence = selectOne('topics', ['name' => $name]);
-        if($existence['name'] === $name){
-            $errMsg = "РўР°РєР°СЏ РєР°С‚РµРіРѕСЂРёСЏ СѓР¶Рµ РµСЃС‚СЊ РІ Р±Р°Р·Рµ";
-        }else{
+        if ($existence['name'] === $name) {
+            $errMsg = "Такая категория уже есть в базе";
+        }
+        else {
             $topic = [
                 'name' => $name,
                 'description' => $description
             ];
             $id = insert('topics', $topic);
-            $topic = selectOne('topics', ['id' => $id] );
+            $topic = selectOne('topics', ['id' => $id]);
             header('location: ' . BASE_URL . 'admin/topics/index.php');
         }
     }
-}else{
+}
+else {
     $name = '';
     $description = '';
 }
 
 
-// РђРїРґРµР№С‚ РєР°С‚РµРіРѕСЂРёРё
-if($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])){
+// Апдейт категории
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])) {
     $id = $_GET['id'];
     $topic = selectOne('topics', ['id' => $id]);
     $id = $topic['id'];
@@ -47,15 +51,17 @@ if($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])){
     $description = $topic['description'];
 }
 
-if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['topic-edit'])){
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['topic-edit'])) {
     $name = trim($_POST['name']);
     $description = trim($_POST['description']);
 
-    if($name === '' || $description === ''){
-        $errMsg = "РќРµ РІСЃРµ РїРѕР»СЏ Р·Р°РїРѕР»РЅРµРЅС‹!";
-    }elseif (mb_strlen($name, 'UTF8') < 2){
-        $errMsg = "РљР°С‚РµРіРѕСЂРёСЏ РґРѕР»Р¶РЅР° Р±С‹С‚СЊ Р±РѕР»РµРµ 2-С… СЃРёРјРІРѕР»РѕРІ";
-    }else{
+    if ($name === '' || $description === '') {
+        $errMsg = "Не все поля заполнены!";
+    }
+    elseif (mb_strlen($name, 'UTF8') < 2) {
+        $errMsg = "Категория должна быть более 2-х символов";
+    }
+    else {
         $topic = [
             'name' => $name,
             'description' => $description
@@ -66,8 +72,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['topic-edit'])){
     }
 }
 
-// РЈРґР°Р»РµРЅРёРµ РєР°С‚РµРіРѕСЂРёРё
-if($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['del_id'])){
+// Удаление категории
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['del_id'])) {
     $id = $_GET['del_id'];
     delete('topics', $id);
     header('location: ' . BASE_URL . 'admin/topics/index.php');
