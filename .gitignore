@@ -1,35 +1,39 @@
+# IDE и системные файлы
 .idea/
 .vscode/
-*.log
-vendor/
-node_modules/
 .DS_Store
 Thumbs.db
+*.log
+
+# Зависимости
+vendor/
+node_modules/
 
 # Чувствительные файлы — НИКОГДА не коммитить
 notebooklm_cookie.txt
 emails.log
 *.sql
 
-# Дебаг-скрипты
+# Дебаг и миграционные скрипты
 check_db.php
 fix_data.php
 migrate.php
 migrate_v2.php
 update_db.php
 reset_user.php
+upload_db.php
+fix_admin_auth.php
 
-# Temporary/seed files
+# Временные / seed файлы
 seed_data.php
 download_photos.php
-cars_seed.sql
-comments_seed.sql
-gallery_seed.sql
-fix_data.php
-check_db.php
-reset_user.php
-update_db.php
-notebooklm_cookie.txt
 download_google.php
 dl_single.php
-*.sql
+
+# Deploy-архивы
+avtotachka_deploy.zip
+*.zip
+
+# Дополнительные папки (не относятся к основному проекту)
+invoice-landing/
+stitch_designs/
