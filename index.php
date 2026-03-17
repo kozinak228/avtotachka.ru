@@ -10,6 +10,13 @@ $brand_id = isset($_GET['brand']) ? intval($_GET['brand']) : null;
 $body_type = isset($_GET['body_type']) ? trim($_GET['body_type']) : null;
 $price_min = isset($_GET['price_min']) && $_GET['price_min'] !== '' ? floatval($_GET['price_min']) : null;
 $price_max = isset($_GET['price_max']) && $_GET['price_max'] !== '' ? floatval($_GET['price_max']) : null;
+$transmission = isset($_GET['transmission']) ? trim($_GET['transmission']) : null;
+$drive_type = isset($_GET['drive_type']) ? trim($_GET['drive_type']) : null;
+$color = isset($_GET['color']) ? trim($_GET['color']) : null;
+$mileage_max = isset($_GET['mileage_max']) && $_GET['mileage_max'] !== '' ? intval($_GET['mileage_max']) : null;
+$engine_vol_min = isset($_GET['engine_vol_min']) && $_GET['engine_vol_min'] !== '' ? floatval($_GET['engine_vol_min']) : null;
+$engine_vol_max = isset($_GET['engine_vol_max']) && $_GET['engine_vol_max'] !== '' ? floatval($_GET['engine_vol_max']) : null;
+$year_min = isset($_GET['year_min']) && $_GET['year_min'] !== '' ? intval($_GET['year_min']) : null;
 
 $filters = [];
 if ($brand_id)
@@ -20,12 +27,26 @@ if ($price_min)
     $filters['price_min'] = $price_min;
 if ($price_max)
     $filters['price_max'] = $price_max;
+if ($transmission)
+    $filters['transmission'] = $transmission;
+if ($drive_type)
+    $filters['drive_type'] = $drive_type;
+if ($color)
+    $filters['color'] = $color;
+if ($mileage_max)
+    $filters['mileage_max'] = $mileage_max;
+if ($engine_vol_min)
+    $filters['engine_volume_min'] = $engine_vol_min;
+if ($engine_vol_max)
+    $filters['engine_volume_max'] = $engine_vol_max;
+if ($year_min)
+    $filters['year_min'] = $year_min;
 
 $cars = selectCarsForCatalog($perPage, $offset, $filters);
 $totalCars = countCars($filters);
 $totalPages = ceil($totalCars / $perPage);
 $featured = selectFeaturedCars(5);
-$brands = selectAll('brands');
+$brands = selectBrandsSorted();
 $bodyTypes = getBodyTypes();
 
 $user_favorites = [];
@@ -175,7 +196,7 @@ if (isset($_SESSION['id'])) {
                         </select>
                     </div>
 
-                    <div class="space-y-3">
+                    <div class="space-y-3 border-b border-slate-200 dark:border-white/10 pb-4">
                         <label
                             class="text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">Цена
                             (₽)</label>
@@ -187,6 +208,107 @@ if (isset($_SESSION['id'])) {
                                 class="w-1/2 bg-slate-100 dark:bg-slate-900 border-none rounded-lg p-2 text-sm text-slate-800 dark:text-white outline-none focus:ring-1 focus:ring-primary"
                                 placeholder="До" type="number" min="0" />
                         </div>
+                    </div>
+
+                    <div class="border-b border-slate-200 dark:border-white/10 pb-4">
+                        <label
+                            class="text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-2 block">Возраст авто</label>
+                        <select name="year_min" <?= ($_SESSION['theme'] ?? 'dark') === 'dark' ? 'style="color-scheme: dark;"' : '' ?>
+                            class="w-full bg-slate-100 dark:bg-slate-900 border-none rounded-lg p-3 text-sm focus:ring-primary transition-all text-slate-800 dark:text-white outline-none">
+                            <option value="">Любой</option>
+                            <?php
+                            $currentYear = (int)date('Y');
+                            $yearOptions = [
+                                [$currentYear, 'до 1 года'],
+                                [$currentYear - 2, 'до 3 лет'],
+                                [$currentYear - 4, 'до 5 лет'],
+                                [$currentYear - 9, 'до 10 лет'],
+                                [0, 'старше 10 лет']
+                            ];
+                            foreach ($yearOptions as $yo):
+                                if ($yo[0] === 0) continue; // "старше 10 лет" - не ограничиваем снизу
+                            ?>
+                                <option value="<?= $yo[0] ?>" <?= ($year_min == $yo[0]) ? 'selected' : '' ?>><?= $yo[1] ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+
+                    <div class="border-b border-slate-200 dark:border-white/10 pb-4">
+                        <label
+                            class="text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-2 block">Коробка передач</label>
+                        <select name="transmission" <?= ($_SESSION['theme'] ?? 'dark') === 'dark' ? 'style="color-scheme: dark;"' : '' ?>
+                            class="w-full bg-slate-100 dark:bg-slate-900 border-none rounded-lg p-3 text-sm focus:ring-primary transition-all text-slate-800 dark:text-white outline-none">
+                            <option value="">Все</option>
+                            <?php
+                            $transmissionOptions = ['Автомат', 'Механика', 'Робот', 'Вариатор'];
+                            foreach ($transmissionOptions as $tr):
+                            ?>
+                                <option value="<?= $tr ?>" <?= ($transmission == $tr) ? 'selected' : '' ?>><?= $tr ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+
+                    <div class="border-b border-slate-200 dark:border-white/10 pb-4">
+                        <label
+                            class="text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-2 block">Объём двигателя (л)</label>
+                        <div class="flex items-center space-x-2">
+                            <input name="engine_vol_min" value="<?= $engine_vol_min ?>"
+                                class="w-1/2 bg-slate-100 dark:bg-slate-900 border-none rounded-lg p-2 text-sm text-slate-800 dark:text-white outline-none focus:ring-1 focus:ring-primary"
+                                placeholder="От" type="number" min="0" max="15" step="0.1" />
+                            <input name="engine_vol_max" value="<?= $engine_vol_max ?>"
+                                class="w-1/2 bg-slate-100 dark:bg-slate-900 border-none rounded-lg p-2 text-sm text-slate-800 dark:text-white outline-none focus:ring-1 focus:ring-primary"
+                                placeholder="До" type="number" min="0" max="15" step="0.1" />
+                        </div>
+                    </div>
+
+                    <div class="border-b border-slate-200 dark:border-white/10 pb-4">
+                        <label
+                            class="text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-2 block">Пробег</label>
+                        <select name="mileage_max" <?= ($_SESSION['theme'] ?? 'dark') === 'dark' ? 'style="color-scheme: dark;"' : '' ?>
+                            class="w-full bg-slate-100 dark:bg-slate-900 border-none rounded-lg p-3 text-sm focus:ring-primary transition-all text-slate-800 dark:text-white outline-none">
+                            <option value="">Любой</option>
+                            <?php
+                            $mileageOptions = [
+                                [10000, 'до 10 000 км'],
+                                [30000, 'до 30 000 км'],
+                                [60000, 'до 60 000 км'],
+                                [100000, 'до 100 000 км']
+                            ];
+                            foreach ($mileageOptions as $mo):
+                            ?>
+                                <option value="<?= $mo[0] ?>" <?= ($mileage_max == $mo[0]) ? 'selected' : '' ?>><?= $mo[1] ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+
+                    <div class="border-b border-slate-200 dark:border-white/10 pb-4">
+                        <label
+                            class="text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-2 block">Привод</label>
+                        <select name="drive_type" <?= ($_SESSION['theme'] ?? 'dark') === 'dark' ? 'style="color-scheme: dark;"' : '' ?>
+                            class="w-full bg-slate-100 dark:bg-slate-900 border-none rounded-lg p-3 text-sm focus:ring-primary transition-all text-slate-800 dark:text-white outline-none">
+                            <option value="">Все</option>
+                            <?php
+                            $driveOptions = ['Передний', 'Задний', 'Полный'];
+                            foreach ($driveOptions as $dr):
+                            ?>
+                                <option value="<?= $dr ?>" <?= ($drive_type == $dr) ? 'selected' : '' ?>><?= $dr ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+
+                    <div class="pb-4">
+                        <label
+                            class="text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-2 block">Цвет</label>
+                        <select name="color" <?= ($_SESSION['theme'] ?? 'dark') === 'dark' ? 'style="color-scheme: dark;"' : '' ?>
+                            class="w-full bg-slate-100 dark:bg-slate-900 border-none rounded-lg p-3 text-sm focus:ring-primary transition-all text-slate-800 dark:text-white outline-none">
+                            <option value="">Все</option>
+                            <?php
+                            $colorOptions = ['Чёрный', 'Белый', 'Серебристый/серый', 'Красный/Фиолетовый', 'Синий', 'Зелёный', 'Жёлтый/оранжевый', 'Шампанское/Коричневый'];
+                            foreach ($colorOptions as $cl):
+                            ?>
+                                <option value="<?= $cl ?>" <?= ($color == $cl) ? 'selected' : '' ?>><?= $cl ?></option>
+                            <?php endforeach; ?>
+                        </select>
                     </div>
 
                     <button type="submit"
@@ -318,7 +440,7 @@ if (isset($_SESSION['id'])) {
                     }
 
                     // Base params helper
-                    $getBaseParams = function ($p) use ($brand_id, $body_type, $price_min, $price_max) {
+                    $getBaseParams = function ($p) use ($brand_id, $body_type, $price_min, $price_max, $transmission, $drive_type, $color, $mileage_max, $engine_vol_min, $engine_vol_max, $year_min) {
                         $pa = ['page' => $p];
                         if ($brand_id)
                             $pa['brand'] = $brand_id;
@@ -328,6 +450,20 @@ if (isset($_SESSION['id'])) {
                             $pa['price_min'] = $price_min;
                         if ($price_max)
                             $pa['price_max'] = $price_max;
+                        if ($transmission)
+                            $pa['transmission'] = $transmission;
+                        if ($drive_type)
+                            $pa['drive_type'] = $drive_type;
+                        if ($color)
+                            $pa['color'] = $color;
+                        if ($mileage_max)
+                            $pa['mileage_max'] = $mileage_max;
+                        if ($engine_vol_min)
+                            $pa['engine_vol_min'] = $engine_vol_min;
+                        if ($engine_vol_max)
+                            $pa['engine_vol_max'] = $engine_vol_max;
+                        if ($year_min)
+                            $pa['year_min'] = $year_min;
                         return $pa;
                     };
 

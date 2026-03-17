@@ -230,6 +230,94 @@ function countAllCarsForAdmin()
     return $query->fetchColumn();
 }
 
+// Вспомогательная: построение SQL-условий фильтрации
+function buildFilterConditions($filters)
+{
+    $conditions = "";
+    $params = [];
+
+    if (!empty($filters['brand'])) {
+        $conditions .= " AND c.id_brand = :brand";
+        $params['brand'] = intval($filters['brand']);
+    }
+    if (!empty($filters['body_type'])) {
+        $conditions .= " AND c.body_type = :body_type";
+        $params['body_type'] = $filters['body_type'];
+    }
+    if (!empty($filters['price_min'])) {
+        $conditions .= " AND c.price >= :price_min";
+        $params['price_min'] = floatval($filters['price_min']);
+    }
+    if (!empty($filters['price_max'])) {
+        $conditions .= " AND c.price <= :price_max";
+        $params['price_max'] = floatval($filters['price_max']);
+    }
+    // Новые фильтры — с маппингом синонимов
+    if (!empty($filters['transmission'])) {
+        // Маппинг: фильтр → возможные значения в БД
+        $transMap = [
+            'Автомат' => ['Автомат', 'АКПП', 'AT', 'Автоматическая'],
+            'Механика' => ['Механика', 'МКПП', 'MT', 'Механическая'],
+            'Робот' => ['Робот', 'Роботизированная', 'DSG', 'AMT'],
+            'Вариатор' => ['Вариатор', 'CVT'],
+        ];
+        $key = $filters['transmission'];
+        $variants = $transMap[$key] ?? [$key];
+        $placeholders = [];
+        foreach ($variants as $i => $v) {
+            $pname = "trans_$i";
+            $placeholders[] = ":$pname";
+            $params[$pname] = $v;
+        }
+        $conditions .= " AND c.transmission IN (" . implode(',', $placeholders) . ")";
+    }
+    if (!empty($filters['drive_type'])) {
+        // "Полный" должен находить и "Полный 4WD"
+        $conditions .= " AND c.drive_type LIKE :drive_type";
+        $params['drive_type'] = $filters['drive_type'] . '%';
+    }
+    if (!empty($filters['color'])) {
+        // Маппинг составных цветов → поиск по каждому слову
+        $colorMap = [
+            'Чёрный' => ['Чёрный', 'Черный'],
+            'Белый' => ['Белый'],
+            'Серебристый/серый' => ['Серебристый', 'Серый'],
+            'Красный/Фиолетовый' => ['Красный', 'Фиолетовый', 'Бордовый'],
+            'Синий' => ['Синий', 'Голубой'],
+            'Зелёный' => ['Зелёный', 'Зеленый'],
+            'Жёлтый/оранжевый' => ['Жёлтый', 'Желтый', 'Оранжевый'],
+            'Шампанское/Коричневый' => ['Шампанское', 'Коричневый', 'Бежевый', 'Шампань'],
+        ];
+        $key = $filters['color'];
+        $variants = $colorMap[$key] ?? [$key];
+        $placeholders = [];
+        foreach ($variants as $i => $v) {
+            $pname = "color_$i";
+            $placeholders[] = ":$pname";
+            $params[$pname] = $v;
+        }
+        $conditions .= " AND c.color IN (" . implode(',', $placeholders) . ")";
+    }
+    if (!empty($filters['mileage_max'])) {
+        $conditions .= " AND c.mileage <= :mileage_max";
+        $params['mileage_max'] = intval($filters['mileage_max']);
+    }
+    if (!empty($filters['engine_volume_min'])) {
+        $conditions .= " AND c.engine_volume >= :engine_volume_min";
+        $params['engine_volume_min'] = floatval($filters['engine_volume_min']);
+    }
+    if (!empty($filters['engine_volume_max'])) {
+        $conditions .= " AND c.engine_volume <= :engine_volume_max";
+        $params['engine_volume_max'] = floatval($filters['engine_volume_max']);
+    }
+    if (!empty($filters['year_min'])) {
+        $conditions .= " AND c.year >= :year_min";
+        $params['year_min'] = intval($filters['year_min']);
+    }
+
+    return [$conditions, $params];
+}
+
 // Получить авто для каталога (с пагинацией, фильтрами)
 function selectCarsForCatalog($limit, $offset, $filters = [])
 {
@@ -239,25 +327,8 @@ function selectCarsForCatalog($limit, $offset, $filters = [])
             JOIN brands AS b ON c.id_brand = b.id
             WHERE c.status = 1";
 
-    $params = [];
-
-    if (!empty($filters['brand'])) {
-        $brand = intval($filters['brand']);
-        $sql .= " AND c.id_brand = :brand";
-        $params['brand'] = $brand;
-    }
-    if (!empty($filters['body_type'])) {
-        $sql .= " AND c.body_type = :body_type";
-        $params['body_type'] = $filters['body_type'];
-    }
-    if (!empty($filters['price_min'])) {
-        $sql .= " AND c.price >= :price_min";
-        $params['price_min'] = floatval($filters['price_min']);
-    }
-    if (!empty($filters['price_max'])) {
-        $sql .= " AND c.price <= :price_max";
-        $params['price_max'] = floatval($filters['price_max']);
-    }
+    [$conditions, $params] = buildFilterConditions($filters);
+    $sql .= $conditions;
 
     $sql .= " ORDER BY c.created_date DESC LIMIT $limit OFFSET $offset";
 
@@ -273,25 +344,8 @@ function countCars($filters = [])
     global $pdo;
     $sql = "SELECT COUNT(*) FROM cars AS c WHERE c.status = 1";
 
-    $params = [];
-
-    if (!empty($filters['brand'])) {
-        $brand = intval($filters['brand']);
-        $sql .= " AND c.id_brand = :brand";
-        $params['brand'] = $brand;
-    }
-    if (!empty($filters['body_type'])) {
-        $sql .= " AND c.body_type = :body_type";
-        $params['body_type'] = $filters['body_type'];
-    }
-    if (!empty($filters['price_min'])) {
-        $sql .= " AND c.price >= :price_min";
-        $params['price_min'] = floatval($filters['price_min']);
-    }
-    if (!empty($filters['price_max'])) {
-        $sql .= " AND c.price <= :price_max";
-        $params['price_max'] = floatval($filters['price_max']);
-    }
+    [$conditions, $params] = buildFilterConditions($filters);
+    $sql .= $conditions;
 
     $query = $pdo->prepare($sql);
     $query->execute($params);
@@ -406,4 +460,16 @@ function getBodyTypes()
     $query->execute();
     dbCheckError($query);
     return $query->fetchAll(PDO::FETCH_COLUMN);
+}
+
+// Получить бренды с сортировкой: сначала не-Китай (по алфавиту), затем Китай (по алфавиту)
+function selectBrandsSorted()
+{
+    global $pdo;
+    $sql = "SELECT * FROM brands 
+            ORDER BY CASE WHEN country = 'Китай' THEN 1 ELSE 0 END ASC, name ASC";
+    $query = $pdo->prepare($sql);
+    $query->execute();
+    dbCheckError($query);
+    return $query->fetchAll();
 }

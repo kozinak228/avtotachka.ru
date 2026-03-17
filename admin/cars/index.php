@@ -68,7 +68,7 @@ if ($search !== '') {
                 <thead><tr>
                     <th><input type="checkbox" id="selectAll"></th>
                     <th>ID</th><th>Фото</th><th>Название</th><th>Бренд</th>
-                    <th>Цена</th><th>Добавил</th><th>Статус</th><th>Действия</th>
+                    <th>Цена</th><th>Добавил</th><th>Дата добавления</th><th>Статус</th><th>Действия</th>
                 </tr></thead>
                 <tbody>
                 <?php foreach ($carsAdm as $car): ?>
@@ -80,6 +80,7 @@ if ($search !== '') {
                     <td><?= htmlspecialchars($car['brand_name'] ?? '') ?></td>
                     <td><?= number_format($car['price'], 0, '', ' ') ?> &#8381;</td>
                     <td><?= htmlspecialchars($car['username'] ?? '') ?></td>
+                    <td><small><?= !empty($car['created_date']) ? date('d.m.Y H:i', strtotime($car['created_date'])) : '—' ?></small></td>
                     <td>
                         <?php if ($car['status'] == 1): ?>
                             <a href="<?= BASE_URL ?>admin/cars/index.php?pub_id=<?= $car['id'] ?>&publish=0" class="badge bg-success text-decoration-none">Опубликован</a>
@@ -93,7 +94,7 @@ if ($search !== '') {
                     </td>
                 </tr>
                 <?php endforeach; ?>
-                <?php if (empty($carsAdm)): ?><tr><td colspan="9" class="text-center text-muted py-4">Ничего не найдено</td></tr><?php endif; ?>
+                <?php if (empty($carsAdm)): ?><tr><td colspan="10" class="text-center text-muted py-4">Ничего не найдено</td></tr><?php endif; ?>
                 </tbody>
             </table>
         </form>
