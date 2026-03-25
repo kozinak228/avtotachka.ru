@@ -45,7 +45,7 @@
                 <ul class="space-y-2 m-0 p-0 list-none text-sm">
                     <li class="flex items-center space-x-2 text-slate-400">
                         <span class="material-icons text-primary text-sm">phone</span>
-                        <span>+7 (999) 123-45-67</span>
+                        <a href="tel:+79771310000" class="text-slate-400 hover:text-white transition-colors" style="text-decoration:none;">+7 977 131 0000</a>
                     </li>
                     <li class="flex items-center space-x-2 text-slate-400">
                         <span class="material-icons text-primary text-sm">email</span>

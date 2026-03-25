@@ -107,61 +107,8 @@ if (isset($_SESSION['id'])) {
 
     <?php include("app/include/header.php"); ?>
 
-    <?php if (count($featured) > 0 && $page == 1 && empty($filters)): ?>
-        <section class="max-w-7xl mx-auto px-4 mt-28 mb-8">
-            <div id="heroCarousel" class="carousel slide !h-auto" data-bs-ride="carousel">
-                <div class="carousel-inner !h-auto rounded-3xl overflow-hidden shadow-2xl">
-                    <?php foreach ($featured as $index => $hero): ?>
-                        <div class="carousel-item !h-auto <?= $index === 0 ? 'active' : '' ?>">
-                            <div class="relative h-[500px] md:h-[600px] w-full">
-                                <?php if ($hero['img']): ?>
-                                    <img alt="<?= htmlspecialchars($hero['title']) ?>" class="w-full h-full object-cover"
-                                        src="<?= BASE_URL ?>assets/images/cars/<?= $hero['img'] ?>" />
-                                <?php else: ?>
-                                    <div class="w-full h-full bg-slate-800 flex items-center justify-center"><i
-                                            class="fas fa-car fa-5x text-slate-500"></i></div>
-                                <?php endif; ?>
-                                <div
-                                    class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent pointer-events-none z-0">
-                                </div>
-                                <div class="absolute inset-x-0 bottom-0 p-12 text-white z-10 pointer-events-none">
-                                    <div class="pointer-events-auto relative inline-block">
-                                        <span
-                                            class="inline-flex items-center justify-center px-5 py-1.5 rounded-full bg-[#991b1b] text-white border-2 border-white/50 text-[11px] font-bold tracking-[0.1em] uppercase mb-4 shadow-lg leading-none drop-shadow-md"
-                                            style="height: 32px; padding-top: 2px;">Спецпредложение</span>
-                                        <h2 class="text-4xl md:text-5xl font-bold mb-2 drop-shadow-xl">
-                                            <?= htmlspecialchars($hero['title']) ?>
-                                        </h2>
-                                        <p class="text-xl text-slate-300 mb-6 drop-shadow-md">Цена от
-                                            <?= number_format($hero['price'], 0, '', ' ') ?> ₽
-                                        </p>
-                                        <a href="<?= BASE_URL ?>single.php?id=<?= $hero['id'] ?>"
-                                            class="magnetic-btn inline-flex items-center bg-primary hover:bg-primary/90 text-white px-8 py-4 rounded-full font-bold shadow-lg shadow-primary/20 transition-all drop-shadow-md cursor-pointer"
-                                            style="text-decoration:none;">
-                                            Подробнее <span class="material-icons ml-2">arrow_forward</span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
-                </div>
-                <?php if (count($featured) > 1): ?>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Предыдущий</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Следующий</span>
-                    </button>
-                <?php endif; ?>
-            </div>
-        </section>
-    <?php endif; ?>
-
     <main
-        class="max-w-7xl mx-auto px-4 py-16 flex flex-col lg:flex-row gap-8 <?= ($page != 1 || !empty($filters)) ? 'mt-20' : '' ?>">
+        class="max-w-7xl mx-auto px-4 py-16 flex flex-col lg:flex-row gap-8 mt-20">
         <!-- Фильтры (Sidebar) -->
         <aside class="w-full lg:w-1/4 space-y-6">
             <div class="glass dark:bg-slate-800/40 p-6 rounded-2xl sticky top-28">
