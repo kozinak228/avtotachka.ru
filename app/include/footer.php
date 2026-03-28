@@ -9,18 +9,12 @@
                 <p class="text-slate-400 max-w-sm mb-4 text-sm leading-snug">Ваш надежный партнер в мире премиальных
                     автомобилей из Китая. Широкий каталог, подробные характеристики, честные цены.</p>
                 <div class="flex space-x-3">
-                    <a href="#"
+                    <a href="https://t.me/+79771310000" target="_blank"
                         class="w-8 h-8 rounded-full glass hover:bg-primary transition-colors flex items-center justify-center text-white text-sm"
                         style="text-decoration:none;"><i class="fab fa-telegram"></i></a>
-                    <a href="#"
+                    <a href="https://wa.me/79771310000" target="_blank"
                         class="w-8 h-8 rounded-full glass hover:bg-primary transition-colors flex items-center justify-center text-white text-sm"
                         style="text-decoration:none;"><i class="fab fa-whatsapp"></i></a>
-                    <a href="#"
-                        class="w-8 h-8 rounded-full glass hover:bg-primary transition-colors flex items-center justify-center text-white text-sm"
-                        style="text-decoration:none;"><i class="fab fa-instagram"></i></a>
-                    <a href="#"
-                        class="w-8 h-8 rounded-full glass hover:bg-primary transition-colors flex items-center justify-center text-white text-sm"
-                        style="text-decoration:none;"><i class="fab fa-youtube"></i></a>
                 </div>
             </div>
 

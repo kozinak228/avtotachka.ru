@@ -85,7 +85,9 @@ include_once SITE_ROOT . "/app/controllers/commentaries.php";
                         <p class="text-slate-500 dark:text-slate-400 flex items-center gap-2">
                             <span
                                 class="px-3 py-1 bg-primary text-white text-xs font-bold rounded-full uppercase tracking-wider"><?= htmlspecialchars($car['brand_name']) ?></span>
-                            Добавлено: <?= date('d.m.Y', strtotime($car['created_date'])) ?>
+                            <?php if (!empty($_SESSION['admin'])): ?>
+                                Добавлено: <?= date('d.m.Y', strtotime($car['created_date'])) ?>
+                            <?php endif; ?>
                         </p>
                     </div>
                     <div class="text-right">
@@ -294,13 +296,18 @@ include_once SITE_ROOT . "/app/controllers/commentaries.php";
                     <h3 class="text-lg font-bold mb-4 flex items-center text-slate-900 dark:text-white">
                         <span class="material-icons text-primary mr-2">contact_support</span> Связаться с нами
                     </h3>
-                    <p class="text-slate-500 dark:text-slate-400 text-sm mb-6">Заинтересовал этот автомобиль? Оставьте
-                        заявку, и мы свяжемся с вами для консультации.</p>
-                    <button
-                        class="magnetic-btn w-full bg-primary hover:bg-red-600 text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-all border-none cursor-pointer shadow-[0_0_20px_rgba(225,29,72,0.3)] hover:shadow-[0_0_30px_rgba(225,29,72,0.5)]">
-                        <span class="material-icons">phone_in_talk</span> Заказать звонок
-                    </button>
-                    <a href="https://wa.me/79991234567" target="_blank"
+                    <p class="text-slate-500 dark:text-slate-400 text-sm mb-6">Заинтересовал этот автомобиль? Свяжитесь с нами удобным способом:</p>
+                    <a href="tel:+79771310000"
+                        class="magnetic-btn w-full bg-primary hover:bg-red-600 text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-all border-none cursor-pointer shadow-[0_0_20px_rgba(225,29,72,0.3)] hover:shadow-[0_0_30px_rgba(225,29,72,0.5)]"
+                        style="text-decoration:none;">
+                        <span class="material-icons">phone_in_talk</span> Позвонить
+                    </a>
+                    <a href="https://t.me/+79771310000" target="_blank"
+                        class="magnetic-btn mt-3 w-full bg-[#2AABEE] text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-all text-center"
+                        style="text-decoration:none;">
+                        <i class="fab fa-telegram text-lg"></i> Написать в Telegram
+                    </a>
+                    <a href="https://wa.me/79771310000" target="_blank"
                         class="magnetic-btn mt-3 w-full bg-[#25D366] text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-all text-center"
                         style="text-decoration:none;">
                         <i class="fab fa-whatsapp text-lg"></i> Написать в WhatsApp
