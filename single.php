@@ -302,6 +302,11 @@ include_once SITE_ROOT . "/app/controllers/commentaries.php";
                         style="text-decoration:none;">
                         <span class="material-icons">phone_in_talk</span> Позвонить
                     </a>
+                    <a href="https://max.ru/call/+79771310000" target="_blank"
+                        class="magnetic-btn mt-3 w-full text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-all text-center"
+                        style="text-decoration:none; background: linear-gradient(135deg, #3B82F6, #8B5CF6, #EC4899);">
+                        <img src="<?= BASE_URL ?>assets/images/max_icon.svg" alt="MAX" width="24" height="24" style="border-radius:5px;"> Написать в MAX
+                    </a>
                     <a href="https://t.me/+79771310000" target="_blank"
                         class="magnetic-btn mt-3 w-full bg-[#2AABEE] text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-all text-center"
                         style="text-decoration:none;">
