@@ -38,9 +38,11 @@ require "path.php";
             },
         };
     </script>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet" />
 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
 
     <!-- Custom Global CSS -->
     <link rel="stylesheet" href="assets/css/style.css">
@@ -79,7 +81,7 @@ require "path.php";
 </head>
 
 <body
-    class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 transition-colors duration-300 min-h-screen flex flex-col <?= ($_SESSION['theme'] ?? 'light') === 'dark' ? 'dark-theme' : '' ?>">
+    class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 transition-colors duration-300 min-h-screen flex flex-col <?= ($_SESSION['theme'] ?? 'dark') === 'dark' ? 'dark-theme' : '' ?>">
 
     <!-- Header -->
     <?php include("app/include/header.php"); ?>
@@ -98,12 +100,12 @@ require "path.php";
             $compareList = isset($_SESSION['compare']) ? $_SESSION['compare'] : [];
 
             if (empty($compareList)): ?>
-                <div class="bg-white dark:bg-slate-800 rounded-3xl p-12 text-center border border-slate-200 dark:border-slate-700 shadow-sm animate-fade-in"
+                <div class="bg-slate-800 rounded-3xl p-12 text-center border border-slate-700 shadow-sm animate-fade-in"
                     style="animation-delay: 0.1s;">
                     <span
-                        class="material-icons-outlined text-6xl text-slate-300 dark:text-slate-600 mb-4">directions_car</span>
-                    <h2 class="text-2xl font-bold text-slate-800 dark:text-white mb-2">Список сравнения пуст</h2>
-                    <p class="text-slate-500 dark:text-slate-400 mb-8 max-w-md mx-auto">Вы еще не добавили ни одного
+                        class="material-icons text-6xl text-slate-600 mb-4">directions_car</span>
+                    <h2 class="text-2xl font-bold text-white mb-2">Список сравнения пуст</h2>
+                    <p class="text-slate-400 mb-8 max-w-md mx-auto">Вы еще не добавили ни одного
                         автомобиля для сравнения. Перейдите в каталог, чтобы выбрать интересующие вас модели.</p>
                     <a href="<?= BASE_URL ?>"
                         class="inline-flex items-center gap-2 px-8 py-3 bg-primary hover:bg-red-600 text-white font-bold rounded-xl transition-all shadow-[0_0_15px_rgba(225,29,72,0.3)] hover:shadow-[0_0_25px_rgba(225,29,72,0.5)]">
@@ -133,23 +135,23 @@ require "path.php";
                 $gridColsClass = 'grid-cols-' . (count($orderedCars) + 1); // +1 for labels
                 ?>
 
-                <div class="bg-white dark:bg-slate-800 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden animate-fade-in"
+                <div class="bg-slate-800 rounded-3xl border border-slate-700 shadow-sm overflow-hidden animate-fade-in"
                     style="animation-delay: 0.1s;">
                     <div class="compare-table"
                         style="grid-template-columns: minmax(150px, 1fr) repeat(<?= count($orderedCars) ?>, minmax(250px, 1fr));">
 
                         <!-- Header Row (Images & Titles) -->
                         <div
-                            class="spec-label-col p-6 flex flex-col justify-end border-b border-r border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
-                            <h3 class="font-bold text-lg text-slate-900 dark:text-white">Параметры</h3>
+                            class="spec-label-col p-6 flex flex-col justify-end border-b border-r border-slate-700 bg-slate-900">
+                            <h3 class="font-bold text-lg text-white">Параметры</h3>
                         </div>
 
                         <?php foreach ($orderedCars as $index => $car): ?>
                             <div
-                                class="p-6 border-b border-slate-200 dark:border-slate-700 flex flex-col relative group text-center">
+                                class="p-6 border-b border-slate-700 flex flex-col relative group text-center">
                                 <!-- Remove Button -->
                                 <button onclick="removeFromCompare(<?= $car['id'] ?>)"
-                                    class="absolute top-4 right-4 z-20 w-8 h-8 flex items-center justify-center bg-white/90 dark:bg-slate-800/90 text-slate-400 hover:text-primary rounded-full shadow-md backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all hover:scale-110">
+                                    class="absolute top-4 right-4 z-20 w-8 h-8 flex items-center justify-center bg-slate-800/90 text-slate-400 hover:text-primary rounded-full shadow-md backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all hover:scale-110">
                                     <span class="material-icons text-sm">close</span>
                                 </button>
 
@@ -160,15 +162,15 @@ require "path.php";
                                             alt="<?= htmlspecialchars($car['title'] ?? '') ?>"
                                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                                     <?php else: ?>
-                                        <div class="w-full h-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center">
-                                            <span class="material-icons-outlined text-4xl text-slate-400">directions_car</span>
+                                        <div class="w-full h-full bg-slate-800 flex items-center justify-center">
+                                            <span class="material-icons text-4xl text-slate-400">directions_car</span>
                                         </div>
                                     <?php endif; ?>
                                     <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors">
                                     </div>
                                 </a>
                                 <a href="<?= BASE_URL . 'single.php?id=' . $car['id'] ?>"
-                                    class="text-lg font-bold text-slate-900 dark:text-white hover:text-primary transition-colors line-clamp-2 leading-tight">
+                                    class="text-lg font-bold text-white hover:text-primary transition-colors line-clamp-2 leading-tight">
                                     <?= htmlspecialchars($car['title'] ?? '') ?>
                                 </a>
                                 <div class="mt-2 text-primary font-bold text-xl">
@@ -192,12 +194,12 @@ require "path.php";
                         ];
 
                         foreach ($specs as $rowIndex => $spec):
-                            $bgClass = $rowIndex % 2 === 0 ? 'bg-white dark:bg-slate-900' : 'bg-slate-50 dark:bg-slate-800';
+                            $bgClass = $rowIndex % 2 === 0 ? 'bg-slate-900' : 'bg-slate-800';
                             ?>
                             <!-- Spec Label -->
                             <div
-                                class="spec-label-col p-4 flex items-center gap-3 border-r border-slate-200 dark:border-slate-700 <?= $bgClass ?> text-slate-500 dark:text-slate-400">
-                                <span class="material-icons-outlined text-[18px] opacity-70">
+                                class="spec-label-col p-4 flex items-center gap-3 border-r border-slate-700 <?= $bgClass ?> text-slate-400">
+                                <span class="material-icons text-[18px] opacity-70">
                                     <?= $spec['icon'] ?>
                                 </span>
                                 <span class="font-medium text-sm">
@@ -208,7 +210,7 @@ require "path.php";
                             <!-- Spec Values -->
                             <?php foreach ($orderedCars as $car): ?>
                                 <div class="p-4 flex flex-col justify-center items-center text-center border-l-0 <?= $bgClass ?>">
-                                    <span class="font-semibold text-slate-900 dark:text-white">
+                                    <span class="font-semibold text-white">
                                         <?php
                                         $val = $car[$spec['key']];
                                         echo (!empty($val) || $val === '0') ? htmlspecialchars($val) : '<span class="text-slate-300 dark:text-slate-600">-</span>';
