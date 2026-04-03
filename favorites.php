@@ -1,6 +1,7 @@
 <?php
 include "path.php";
 include_once SITE_ROOT . "/app/database/db.php";
+include_once SITE_ROOT . "/app/helpers/track_visit.php";
 
 // Требуем авторизации
 if (!isset($_SESSION['id'])) {

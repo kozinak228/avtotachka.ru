@@ -14,5 +14,8 @@
             <li>
                 <a href="<?php echo BASE_URL . "admin/comments/index.php"; ?>">Комментарии</a>
             </li>
+            <li>
+                <a href="<?php echo BASE_URL . "admin/analytics/index.php"; ?>">Статистика</a>
+            </li>
         </ul>
     </div>

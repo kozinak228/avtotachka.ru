@@ -1,6 +1,7 @@
 <?php
 include "path.php";
 include_once SITE_ROOT . "/app/database/db.php";
+include_once SITE_ROOT . "/app/helpers/track_visit.php";
 
 $allCars = selectAll('cars', ['status' => 1]);
 $brands = selectAll('brands');
@@ -158,34 +159,6 @@ $brands = selectAll('brands');
                     $delay += 0.1;
                     $index++;
                 endif;
-
-                // Доп. фото
-                foreach ($images as $image):
-                    $class = '';
-                    if ($index % 5 == 0)
-                        $class = 'masonry-item-large';
-                    elseif ($index % 7 == 0)
-                        $class = 'masonry-item-wide';
-                    $delayVal = $delay . 's';
-                    ?>
-                    <div class="<?= $class ?> group relative overflow-hidden rounded-3xl bg-slate-200 dark:bg-slate-800 stagger-load border border-slate-200 dark:border-white/10 shadow-sm"
-                        style="animation-delay: <?= $delayVal ?>">
-                        <a href="<?= BASE_URL ?>single.php?id=<?= $car['id'] ?>"
-                            class="block gallery-image-wrapper h-full w-full relative overflow-hidden cursor-pointer">
-                            <img alt="<?= htmlspecialchars($car['title']) ?>"
-                                class="w-full h-full object-cover transition-transform duration-700 ease-out"
-                                src="<?= BASE_URL . 'assets/images/cars/' . $image['img'] ?>" />
-                            <div
-                                class="overlay absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 transition-opacity duration-300 flex flex-col justify-end p-6">
-                                <span class="text-primary text-xs font-bold tracking-widest uppercase mb-1">Детали</span>
-                                <h3 class="text-white text-2xl font-bold"><?= htmlspecialchars($car['title']) ?></h3>
-                            </div>
-                        </a>
-                    </div>
-                    <?php
-                    $delay += 0.1;
-                    $index++;
-                endforeach;
             endforeach;
             ?>
         </div>

@@ -1,6 +1,7 @@
 <?php
 include "path.php";
 include_once SITE_ROOT . "/app/database/db.php";
+include_once SITE_ROOT . "/app/helpers/track_visit.php";
 
 $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
 $perPage = 6;

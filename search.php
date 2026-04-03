@@ -1,6 +1,7 @@
 <?php
 include "path.php";
 include_once SITE_ROOT . "/app/database/db.php";
+include_once SITE_ROOT . "/app/helpers/track_visit.php";
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search-term'])) {
     $cars = searchCars($_POST['search-term']);
     $searchTerm = htmlspecialchars($_POST['search-term']);

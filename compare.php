@@ -2,6 +2,7 @@
 session_start();
 require_once("app/database/db.php");
 require "path.php";
+include_once SITE_ROOT . "/app/helpers/track_visit.php";
 ?>
 <!DOCTYPE html>
 <html lang="ru" class="<?= ($_SESSION['theme'] ?? 'dark') === 'dark' ? 'dark' : '' ?>">
