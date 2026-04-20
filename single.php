@@ -78,8 +78,8 @@ include_once SITE_ROOT . "/app/controllers/commentaries.php";
     <main class="max-w-7xl mx-auto px-4 py-8 mt-20">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
             <div class="lg:col-span-8 space-y-8">
-                <div class="flex justify-between items-end animate-fade-in-up">
-                    <div class="space-y-2">
+                <div class="flex justify-between items-end gap-4 animate-fade-in-up">
+                    <div class="space-y-2 min-w-0">
                         <h1 class="text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
                             <?= htmlspecialchars($car['title']) ?>
                         </h1>
@@ -91,9 +91,8 @@ include_once SITE_ROOT . "/app/controllers/commentaries.php";
                             <?php endif; ?>
                         </p>
                     </div>
-                    <div class="text-right">
-                        <span class="text-3xl font-bold text-primary"><?= number_format($car['price'], 0, '', ' ') ?>
-                            ₽</span>
+                    <div class="text-right flex-shrink-0">
+                        <span class="text-3xl font-bold text-primary whitespace-nowrap"><?= number_format($car['price'], 0, '', ' ') ?> ₽</span>
                     </div>
                 </div>
 

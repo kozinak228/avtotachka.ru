@@ -346,9 +346,9 @@ if (isset($_SESSION['id'])) {
                                 </h3>
                                 <div class="flex items-end justify-between mt-4">
                                     <div>
-                                        <span class="text-slate-500 text-xs block mb-1">Цена от</span>
+                                        <span class="text-slate-500 text-xs block mb-1">Цена</span>
                                         <span
-                                            class="text-2xl font-bold text-primary"><?= number_format($car['price'], 0, '', ' ') ?>
+                                            class="text-2xl font-bold text-primary whitespace-nowrap"><?= number_format($car['price'], 0, '', ' ') ?>
                                             ₽</span>
                                     </div>
                                     <a href="<?= BASE_URL ?>single.php?id=<?= $car['id'] ?>"
